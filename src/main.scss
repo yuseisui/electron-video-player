@@ -1,0 +1,255 @@
+$warning-red: #da0707;
+$title-horizontal-margin: 10px;
+$title-bar-height: 30px;
+$window-control-width: 45px;
+$title-marquee-translatex-length: calc(
+  100vw - 100% - (#{$window-control-width} + #{$title-horizontal-margin} * 2)
+);
+$control-height: 48px;
+$bottom-horizontal-padding: 12px;
+$linear-in: cubic-bezier(0.4, 0, 1, 1);
+
+@mixin control-background {
+  background-color: transparent;
+  background-origin: content-box;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: transparent;
+  color: #fff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", "YuGothic",
+    "Yu Gothic Medium", sans-serif;
+  height: 100vh;
+  overflow: hidden;
+  user-select: none;
+}
+
+#file-uploader {
+  display: none;
+}
+
+// Title bar
+
+#title-bar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 9;
+  background-color: rgb(33, 36, 45);
+  display: flex;
+  -webkit-app-region: drag;
+}
+
+#title-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  margin: 0 $title-horizontal-margin;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+#title {
+  font-size: 14px;
+
+  &.marquee {
+    animation: title-marquee 20s linear infinite;
+  }
+}
+
+@keyframes title-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  10% {
+    transform: translateX(0);
+  }
+  90% {
+    transform: translateX($title-marquee-translatex-length);
+  }
+  100% {
+    transform: translateX($title-marquee-translatex-length);
+  }
+}
+
+// Window controls
+
+.window-control {
+  @include control-background;
+  padding: 10px;
+  width: $window-control-width;
+  height: $title-bar-height;
+  -webkit-app-region: no-drag;
+}
+
+#close {
+  background-image: url("./assets/close-button.svg");
+
+  &:hover {
+    background-color: $warning-red;
+  }
+}
+
+// Content
+
+#content {
+  height: calc(100% - #{$title-bar-height});
+  margin-top: $title-bar-height;
+  position: relative;
+
+  &:hover > :is(#gradient-bottom, #bottom) {
+    opacity: 1;
+  }
+}
+
+// Video
+
+video {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+// Video controls
+
+#gradient-bottom,
+#bottom {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  opacity: 0;
+  transition: opacity 100ms $linear-in;
+}
+
+#gradient-bottom {
+  height: 50%;
+  z-index: 1;
+  background: linear-gradient(hsla(0, 0%, 0%, 0), hsla(0, 0%, 0%, 0.7));
+  pointer-events: none;
+}
+
+#bottom {
+  z-index: 2;
+  padding: 0 $bottom-horizontal-padding;
+  text-shadow: 0 0 2px hsla(0, 0%, 0%, 0.5);
+}
+
+#progress-bar {
+  width: 100%;
+  height: 5px;
+  display: block;
+  outline: 0;
+  cursor: pointer;
+  opacity: 0.7;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+#video-controls-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+#video-left-controls,
+#video-right-controls {
+  display: flex;
+}
+
+#video-left-controls > :first-child::before,
+#video-right-controls > :last-child::before {
+  content: "";
+  display: block;
+  width: $bottom-horizontal-padding;
+  height: $control-height;
+  position: absolute;
+  bottom: 0;
+}
+
+#video-left-controls > :first-child::before {
+  left: 0;
+}
+
+#video-right-controls > :last-child::before {
+  right: 0;
+}
+
+.video-control,
+.video-indicator {
+  height: $control-height;
+}
+
+.video-control {
+  @include control-background();
+  padding: 15px;
+  width: $control-height;
+  cursor: pointer;
+  opacity: 0.9;
+  transition: opacity 100ms $linear-in;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.video-indicator {
+  color: #ddd;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  align-items: center;
+}
+
+#playpause {
+  background-image: url("./assets/pause.svg");
+
+  &.paused {
+    background-image: url("./assets/play-arrow.svg");
+  }
+}
+
+#loop {
+  background-image: url("./assets/repeat.svg");
+
+  &.loop {
+    background-image: url("./assets/repeat-active.svg");
+  }
+}
+
+#volume-area {
+  display: flex;
+  margin-right: 20px;
+}
+
+#volume {
+  background-image: url("./assets/volume.svg");
+
+  &.muted {
+    background-image: url("./assets/mute.svg");
+  }
+}
+
+#volume-display {
+  display: flex;
+}
+
+#volume-value {
+  margin-right: 1px;
+}
+
+#open {
+  background-image: url("./assets/folder.svg");
+}

@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "name": "electron-video-player",
+  "productName": "Video Player",
+  "version": "1.0.0",
+  "description": "Cheap video player",
+  "main": "main.cjs",
+  "scripts": {
+    "start": "npm run build:scss && npm run dev",
+    "dev": "electron .",
+    "build:scss": "sass -s compressed --update src",
+    "lint": "xo"
+  },
+  "author": "Yusei Yamamoto <yuseiyamamoto.dev@outlook.com>",
+  "license": "MPL-2.0",
+  "devDependencies": {
+    "electron": "^18.1.0",
+    "sass": "^1.50.1",
+    "xo": "^0.48.0"
+  }
+}
