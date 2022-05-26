@@ -2,6 +2,10 @@
 
 > YouTube-like UIのcheapなビデオプレーヤー
 
+![スクリーンショット](screenshot.png)
+
+> [Tears of Steel | Mango Open Movie Project](https://mango.blender.org/)
+
 ## 起動
 
 ```bash
